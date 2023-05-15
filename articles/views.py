@@ -5,7 +5,7 @@ from articles.models import Article
 
 def articles_list(request):
     template = 'articles/news.html'
-    object_list = Article.objects.all()#.order_by('-published_at')#.prefetch_related('teachers')
+    object_list = Article.objects.all()#.prefetch_related('teachers')
     context = {'object_list': object_list}
 
     # используйте этот параметр для упорядочивания результатов
