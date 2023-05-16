@@ -9,14 +9,16 @@ class ScopeInlineFormset(BaseInlineFormSet):
     def clean(self):
         list_main = []
         for form in self.forms:
-            if form.cleaned_data['is_main']:
+            if form in self.deleted_forms or self._should_delete_form(form):
+                continue
+            if form.cleaned_data.get('is_main'):
                 list_main.append(form.cleaned_data['is_main'])
         if len(list_main) > 1:
             raise ValidationError('Основным может быть только один раздел')
         if len(list_main) == 0:
             raise ValidationError('Укажите основной раздел')
 
-        return super().clean()  # вызываем базовый код переопределяемого метода
+        return super().clean()
 
 
 
