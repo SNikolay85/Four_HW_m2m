@@ -8,11 +8,9 @@ from .models import Article, Tag, Scope
 class ScopeInlineFormset(BaseInlineFormSet):
     def clean(self):
         list_main = []
-        print(list_main)
         for form in self.forms:
             if form.cleaned_data['is_main']:
                 list_main.append(form.cleaned_data['is_main'])
-        print(list_main)
         if len(list_main) > 1:
             raise ValidationError('Основным может быть только один раздел')
         if len(list_main) == 0:

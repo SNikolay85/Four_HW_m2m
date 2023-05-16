@@ -39,3 +39,6 @@ class Scope(models.Model):
         verbose_name = 'Тематика статьи'
         verbose_name_plural = 'Тематики статьи'
         ordering = ['-is_main']
+
+    def __str__(self):
+        return f' Статья: {self.article.title}, Тег - {self.tag.name}'
