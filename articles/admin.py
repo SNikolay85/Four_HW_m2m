@@ -7,14 +7,17 @@ from .models import Article, Tag, Scope
 
 class ScopeInlineFormset(BaseInlineFormSet):
     def clean(self):
+        list_main = []
+        print(list_main)
         for form in self.forms:
-            # В form.cleaned_data будет словарь с данными
-            # каждой отдельной формы, которые вы можете проверить
-            form.cleaned_data
-            # вызовом исключения ValidationError можно указать админке о наличие ошибки
-            # таким образом объект не будет сохранен,
-            # а пользователю выведется соответствующее сообщение об ошибке
-            raise ValidationError('Тут всегда ошибка')
+            if form.cleaned_data['is_main']:
+                list_main.append(form.cleaned_data['is_main'])
+        print(list_main)
+        if len(list_main) > 1:
+            raise ValidationError('Основным может быть только один раздел')
+        if len(list_main) == 0:
+            raise ValidationError('Укажите основной раздел')
+
         return super().clean()  # вызываем базовый код переопределяемого метода
 
 
